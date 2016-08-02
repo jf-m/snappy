@@ -532,6 +532,34 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
+     * @deprecated Get temporaryOutputFolder
+     *
+     * @return string
+     */
+    public function getTemporaryFolder()
+    {
+        if ($this->temporaryOutputFolder === null) {
+            return sys_get_temp_dir();
+        }
+
+        return $this->temporaryOutputFolder;
+    }
+
+    /**
+     * Set both temporaryHtmlFolder and temporaryOutputFolder with the same folder
+     *
+     * @param string $temporaryFolder
+     *
+     * @return $this
+     */
+    public function setTemporaryFolder($temporaryFolder)
+    {
+        $this->temporaryHtmlFolder = $temporaryFolder;
+        $this->temporaryOutputFolder = $temporaryFolder;
+        return $this;
+    }
+
+    /**
      * Get TemporaryHtmlFolder
      *
      * @return string
