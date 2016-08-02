@@ -16,7 +16,8 @@ class PdfTest extends \PHPUnit_Framework_TestCase
     {
         $q = self::SHELL_ARG_QUOTE_REGEX;
         $testObject = new PdfSpy();
-        $testObject->setTemporaryFolder(__DIR__);
+        $testObject->setTemporaryHtmlFolder(__DIR__);
+        $testObject->setTemporaryOutputFolder(__DIR__);
 
         $testObject->getOutputFromHtml('<html></html>', array('footer-html' => 'footer'));
         $this->assertRegExp('/emptyBinary --lowquality --footer-html '.$q.'.*'.$q.' '.$q.'.*'.$q.' '.$q.'.*'.$q.'/', $testObject->getLastCommand());
@@ -25,7 +26,8 @@ class PdfTest extends \PHPUnit_Framework_TestCase
     public function testThatSomethingUsingNonexistentTmpFolder()
     {
         $testObject = new PdfSpy();
-        $testObject->setTemporaryFolder(__DIR__ . '/i-dont-exist');
+        $testObject->setTemporaryHtmlFolder(__DIR__ . '/i-dont-exist');
+        $testObject->setTemporaryOutputFolder(__DIR__ . '/i-dont-exist');
 
         $testObject->getOutputFromHtml('<html></html>', array('footer-html' => 'footer'));
     }
