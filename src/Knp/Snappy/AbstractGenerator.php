@@ -24,7 +24,8 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * @var string
      */
-    protected $temporaryFolder;
+    protected $temporaryHtmlFolder;
+    protected $temporaryOutputFolder;
 
     /**
      * @var array
@@ -354,7 +355,7 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     protected function createTemporaryFile($content = null, $extension = null)
     {
-        $dir = rtrim($this->getTemporaryFolder(), DIRECTORY_SEPARATOR);
+        $dir = rtrim( ( $extension == 'html' ? $this->getTemporaryHtmlFolder() : $this->getTemporaryOutputFolder() ), DIRECTORY_SEPARATOR);
 
         if (!is_dir($dir)) {
             if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
@@ -531,29 +532,57 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Get TemporaryFolder
+     * Get TemporaryHtmlFolder
      *
      * @return string
      */
-    public function getTemporaryFolder()
+    public function getTemporaryHtmlFolder()
     {
-        if ($this->temporaryFolder === null) {
+        if ($this->temporaryHtmlFolder === null) {
             return sys_get_temp_dir();
         }
 
-        return $this->temporaryFolder;
+        return $this->temporaryHtmlFolder;
     }
 
     /**
-     * Set temporaryFolder
+     * Set temporaryHtmlFolder
      *
-     * @param string $temporaryFolder
+     * @param string $temporaryHtmlFolder
      *
      * @return $this
      */
-    public function setTemporaryFolder($temporaryFolder)
+    public function setTemporaryHtmlFolder($temporaryHtmlFolder)
     {
-        $this->temporaryFolder = $temporaryFolder;
+        $this->temporaryHtmlFolder = $temporaryHtmlFolder;
+
+        return $this;
+    }
+
+    /**
+     * Get TemporaryOutputFolder
+     *
+     * @return string
+     */
+    public function getTemporaryOutputFolder()
+    {
+        if ($this->temporaryOutputFolder === null) {
+            return sys_get_temp_dir();
+        }
+
+        return $this->temporaryOutputFolder;
+    }
+
+    /**
+     * Set temporaryOutputFolder
+     *
+     * @param string $temporaryOutputFolder
+     *
+     * @return $this
+     */
+    public function setTemporaryOutputFolder($temporaryOutputFolder)
+    {
+        $this->temporaryOutputFolder = $temporaryOutputFolder;
 
         return $this;
     }
